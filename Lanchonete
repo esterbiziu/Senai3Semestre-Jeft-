@@ -1,0 +1,111 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Lanchonete {
+    private static List<Lanche> lanches = new ArrayList<>();
+    private static List<Pedido> pedidos = new ArrayList<>();
+
+    public static void main(String[] args) {
+
+        
+        
+        Lanche Cachorroquente = new Lanche("Cachorro quente", 8.00);
+        Lanche Smashburguer = new Lanche("Smash burguer", 16.00);
+        Lanche Smashbacon = new Lanche("Smash bacon", 15.00);
+        Lanche Veganbuguer = new Lanche("Vegan burguer", 17.00);
+        Lanche Pastelbelem = new Lanche("Pastel belem", 6.50);
+        Lanche Coxinha = new Lanche("Coxinha", 5.00);
+        Lanche refrigerante = new Lanche("Refrigerante", 5.50);
+
+        lanches.add(Cachorroquente);
+        lanches.add(Smashburguer);
+        lanches.add(Smashbacon);
+        lanches.add(Veganbuguer);
+        lanches.add(Pastelbelem);
+        lanches.add(Coxinha);
+        lanches.add(refrigerante);
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        while (true) {
+            System.out.println("Escolha seu lanche:");
+            System.out.println("1 - Cachorro Quente - 8,00");
+            System.out.println("2 - Smash Burguer - 16,00");
+            System.out.println("3 - Smash Bacon - 15,00");
+            System.out.println("4 - Vegan buguer - 17,00");
+            System.out.println("5 - Pastel de belém - 6,50");
+            System.out.println("6 - Coxinha - 5,00");
+            System.out.println("7 - Refrigerante - 5,50");
+
+            int codigo = scanner.nextInt();
+            if (codigo < 1 || codigo > 7) {
+                System.out.println("Opção inválida!");
+                continue;
+            }
+
+            System.out.println("Qual a quantidade?");
+            int quantidade = scanner.nextInt();
+
+            Lanche lancheEscolhido = lanches.get(codigo - 1);
+            Pedido pedido = new Pedido(lancheEscolhido, quantidade);
+            pedidos.add(pedido);
+
+            System.out.println("Deseja adicionar algo mais ao seu lanche? (s/n)");
+            String resposta = scanner.next();
+            if (resposta.equalsIgnoreCase("n")) {
+                break;
+            }
+        }
+
+        scanner.close();
+        fecharPedido();
+    }
+
+    private static void fecharPedido() {
+        double total = 0;
+        System.out.println("Pedido final:");
+        for (Pedido pedido : pedidos) {
+            double valor = pedido.getLanche().getPreco() * pedido.getQuantidade();
+            System.out.println(pedido.getQuantidade() + " x " + pedido.getLanche().getNome() + " = " + valor);
+            total += valor;
+        }
+        System.out.println("Total: " + total);
+    }
+}
+
+class Lanche {
+    private String nome;
+    private double preco;
+
+    public Lanche(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+}
+
+class Pedido {
+    private Lanche lanche;
+    private int quantidade;
+
+    public Pedido(Lanche lanche, int quantidade) {
+        this.lanche = lanche;
+        this.quantidade = quantidade;
+    }
+
+    public Lanche getLanche() {
+        return lanche;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+}
